@@ -48,7 +48,7 @@ extension BSONValue {
 
     /// Default `Decodable` implementation that throws an error if executed with non-`BSONDecoder`.
     ///
-    /// BSON types' `Deodable` conformance currently only works with `BSONDecoder`, but in the future will be able
+    /// BSON types' `Decodable` conformance currently only works with `BSONDecoder`, but in the future will be able
     /// to work with any decoder (e.g. `JSONDecoder`).
     public init(from decoder: Decoder) throws {
         throw getDecodingError(type: Self.self, decoder: decoder)

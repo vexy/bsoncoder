@@ -1,0 +1,15 @@
+name: Test Suite
+
+on:
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ main, development ]
+
+jobs:
+  package_testing:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Swift package test
+      run: swift test -v

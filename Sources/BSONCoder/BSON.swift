@@ -36,29 +36,14 @@ public enum BSON {
     /// A BSON string.
     case string(String)
 
-    /// A BSON Symbol
-    case symbol(BSONSymbol)
-
     /// A BSON Timestamp
     case timestamp(BSONTimestamp)
 
     /// A BSON Binary
     case binary(BSONBinary)
 
-    /// A BSON Regex
-    case regex(BSONRegularExpression)
-
     /// A BSON ObjectID
     case objectID(BSONObjectID = BSONObjectID())
-
-    /// A BSON DBPointer
-    case dbPointer(BSONDBPointer)
-
-    /// A BSON Code
-    case code(BSONCode)
-
-    /// A BSON Code with Scope
-    case codeWithScope(BSONCodeWithScope)
 
     /// A BSON Null
     case null
@@ -208,14 +193,6 @@ extension BSON {
         return d
     }
 
-    /// If this `BSON` is a `.symbol`, return it as a `BSONSymbol`. Otherwise, return nil.
-    public var symbolValue: BSONSymbol? {
-        guard case let .symbol(d) = self else {
-            return nil
-        }
-        return d
-    }
-
     /// If this `BSON` is a `.timestamp`, return it as a `BSONTimestamp`. Otherwise, return nil.
     public var timestampValue: BSONTimestamp? {
         guard case let .timestamp(d) = self else {
@@ -232,41 +209,9 @@ extension BSON {
         return d
     }
 
-    /// If this `BSON` is a `.regex`, return it as a `BSONRegularExpression`. Otherwise, return nil.
-    public var regexValue: BSONRegularExpression? {
-        guard case let .regex(d) = self else {
-            return nil
-        }
-        return d
-    }
-
     /// If this `BSON` is a `.objectID`, return it as a `BSONObjectID`. Otherwise, return nil.
     public var objectIDValue: BSONObjectID? {
         guard case let .objectID(d) = self else {
-            return nil
-        }
-        return d
-    }
-
-    /// If this `BSON` is a `.dbPointer`, return it as a `BSONDBPointer`. Otherwise, return nil.
-    public var dbPointerValue: BSONDBPointer? {
-        guard case let .dbPointer(d) = self else {
-            return nil
-        }
-        return d
-    }
-
-    /// If this `BSON` is a `.code`, return it as a `BSONCode`. Otherwise, return nil.
-    public var codeValue: BSONCode? {
-        guard case let .code(d) = self else {
-            return nil
-        }
-        return d
-    }
-
-    /// If this `BSON` is a `.codeWithScope`, return it as a `BSONCodeWithScope`. Otherwise, return nil.
-    public var codeWithScopeValue: BSONCodeWithScope? {
-        guard case let .codeWithScope(d) = self else {
             return nil
         }
         return d
@@ -365,14 +310,9 @@ extension BSON {
         .double: Double.self,
         .datetime: Date.self,
         .array: [BSON].self,
-        .symbol: BSONSymbol.self,
         .timestamp: BSONTimestamp.self,
         .binary: BSONBinary.self,
-        .regex: BSONRegularExpression.self,
         .objectID: BSONObjectID.self,
-        .dbPointer: BSONDBPointer.self,
-        .code: BSONCode.self,
-        .codeWithScope: BSONCodeWithScope.self,
         .null: BSONNull.self,
         .undefined: BSONUndefined.self,
         .minKey: BSONMinKey.self,
@@ -400,21 +340,11 @@ extension BSON {
             return v
         case let .string(v):
             return v
-        case let .symbol(v):
-            return v
         case let .timestamp(v):
             return v
         case let .binary(v):
             return v
-        case let .regex(v):
-            return v
-        case let .dbPointer(v):
-            return v
         case let .objectID(v):
-            return v
-        case let .code(v):
-            return v
-        case let .codeWithScope(v):
             return v
         case .null:
             return BSONNull()
@@ -512,9 +442,6 @@ extension BSON {
             return selfArr.elementsEqual(otherArr) {
                 $0.equalsIgnoreKeyOrder($1)
             }
-        case let (.codeWithScope(selfCodeWithScope), .codeWithScope(otherCodeWithScope)):
-            return selfCodeWithScope.code == otherCodeWithScope.code
-                && selfCodeWithScope.scope.equalsIgnoreKeyOrder(otherCodeWithScope.scope)
         default:
             return self == other
         }
