@@ -92,12 +92,8 @@ public enum BSONType: UInt8 {
     case null = 0x0A
     /// A regular expression
     case regex = 0x0B
-    /// A database pointer - deprecated
-    case dbPointer = 0x0C
     /// Javascript code
     case code = 0x0D
-    /// A symbol - deprecated
-    case symbol = 0x0E
     /// JavaScript code w/ scope
     case codeWithScope = 0x0F
     /// 32-bit integer

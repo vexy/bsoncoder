@@ -24,8 +24,8 @@ final class CodecTests: XCTestCase {
         let oid_result = try decoder.decode(BSONObjectID.self, fromBSON: BSON.objectID(oid))
         XCTAssert(oid_result == oid)
         
-//        let array_result = try decoder.decode(Array.self, fromBSON: [BSON.int32(1), BSON.int32(2)])
-//        XCTAssert(array_result == [1, 2])
+        let array_result: Array<Int> = try decoder.decode(Array.self, fromBSON: [BSON.int32(1), BSON.int32(2)])
+        XCTAssert(array_result == [1, 2])
 
         XCTAssert(try encoder.encodeFragment(oid) == BSON.objectID(oid))
         XCTAssert(try encoder.encodeFragment([Int32(1), Int32(2)]) == [BSON.int32(1), BSON.int32(2)])

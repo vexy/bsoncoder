@@ -1,3 +1,8 @@
+struct ArrayStruct {
+    let val1 = [0xBAD1DEA, 0x1DEA]
+    let val2 = Array.init(repeating: 0xFADE, count: 0xABA)
+}
+
 struct TestStruct: Encodable {
     let val1 = "a"
     let val2 = 0

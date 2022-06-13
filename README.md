@@ -1,9 +1,13 @@
 # BSONCoder
-Spearheaded BSON coder - makes encoding or decoding your `struct`s to `BSON` breazingly easy, fast and secure.
+Spearheaded **BSON** coder -> makes converting your `struct`s to and from `BSON` easy, fast and secure.
 
-## Installation
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/vexy/bsoncoder?style=for-the-badge)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/vexy/bsoncoder?style=for-the-badge)  
 
-### Swift Package Manager
+
+# Installation
+
+## Swift Package Manager
 Installation is available via [Swift Package Manager](https://swift.org/package-manager/).  
 To install the `BSONCoder` add the following to your `Package.swift` file:
 
@@ -14,7 +18,7 @@ import PackageDescription
 let package = Package(
     name: "YOUR-PACKAGE",
     dependencies: [
-        .package(url: "https://github.com/vexy/bsoncoder", .upToNextMajor(from: "1.0.0"))
+        .package(url: "https://github.com/vexy/bsoncoder", .upToNextMajor(from: "0.9"))
     ],
     targets: [
         .target(name: "MyTarget", dependencies: ["BSONCoder"])
@@ -28,21 +32,34 @@ https://github.com/vexy/bsoncoder
 ```
 
 ### Swift & OS minimums
-The library supports use with `Swift 5.1+`.  
-The minimum `macOS` version required to build the library is `10.14`.    
-The library is tested in continuous integration against `macOS 10.14, Ubuntu 16.04, and Ubuntu 18.04`.
+The library has the following OS minimum configuration:
+- Swift `5.1+` 
+- iOS `11.0` 
+- macOS `10.14`
+    
+The library is tested in CI configuration running `iOS 11.0 macOS 10.14, Ubuntu 16.04, and Ubuntu 18.04`.
 
 ## Example Usage
-_**HEAVY WIP**_
+
+```Swift
+struct Stuff: Encodable {
+    let name: String
+    let dataField: [Data]
+}
+
+let bsonDoc = try BSONEncoder().encode(Stuff.self)
+```
 
 ```Swift
 struct Stuff: Decodable {
     let name: String
-    let stuff2: [Data]
+    let intData: Int
+    let intArr: [Int]
 }
 
-// ADD MORE CODE
-try BSONEncoder.encoder(Stuff.self)
+let myStuff: Stuff = try BSONEncoder().decode(Stuff.self, from: ["someName", 1, [1,2,3])
+print(myStuff.name)     //someName
+print(myStuff.intArr)   //[1,2,3]
 ```
 
 ## Original Library

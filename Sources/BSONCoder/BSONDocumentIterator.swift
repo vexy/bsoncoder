@@ -210,7 +210,7 @@ public class BSONDocumentIterator: IteratorProtocol {
         case .int32:
             return self.moveReaderIndexSafely(forwardBy: 4)
 
-        case .string, .code, .symbol:
+        case .string, .code:
             guard let strLength = buffer.readInteger(endianness: .little, as: Int32.self) else {
                 return false
             }
@@ -236,13 +236,6 @@ public class BSONDocumentIterator: IteratorProtocol {
             }
             // -4 because the encoded length includes the bytes necessary to store the length itself.
             return self.moveReaderIndexSafely(forwardBy: Int(embeddedDocLength) - 4)
-
-        case .dbPointer:
-            // initial string
-            guard let strLength = buffer.readInteger(endianness: .little, as: Int32.self) else {
-                return false
-            }
-            return self.moveReaderIndexSafely(forwardBy: Int(strLength) + 12)
 
         case .decimal128:
             return self.moveReaderIndexSafely(forwardBy: 16)
