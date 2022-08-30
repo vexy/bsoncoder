@@ -3,6 +3,9 @@ Spearheaded **BSON** coder -> makes converting your `struct`s to and from `BSON`
 
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/vexy/bsoncoder?style=for-the-badge)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/vexy/bsoncoder?style=for-the-badge)  
+  
+[![RC Build](https://github.com/vexy/bsoncoder/actions/workflows/rc_build.yml/badge.svg?branch=main)](https://github.com/vexy/bsoncoder/actions/workflows/rc_build.yml)
+[![Tests](https://github.com/vexy/bsoncoder/actions/workflows/testing.yml/badge.svg?branch=main)](https://github.com/vexy/bsoncoder/actions/workflows/testing.yml)
 
 
 # Installation
