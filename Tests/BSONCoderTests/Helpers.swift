@@ -1,4 +1,4 @@
-struct ArrayStruct {
+struct ArrayStruct: Encodable {
     let val1 = [0xBAD1DEA, 0x1DEA]
     let val2 = Array.init(repeating: 0xFADE, count: 0xABA)
 }
@@ -26,10 +26,10 @@ struct NestedStruct: Codable, Equatable {
     let s2: BasicStruct
 }
 
-struct NestedArray: Codable, Equatable {
-    let array: [BasicStruct]
-}
-
 struct NestedNestedStruct: Codable, Equatable {
     let s: NestedStruct
+}
+
+struct NestedArray: Codable, Equatable {
+    let array: [BasicStruct]
 }

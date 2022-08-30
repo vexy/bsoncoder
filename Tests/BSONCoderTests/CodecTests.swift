@@ -62,7 +62,7 @@ final class CodecTests: XCTestCase {
         XCTAssert(try encoder.encode(nestedStruct) == nestedStructDoc)
         XCTAssert(try decoder.decode(NestedStruct.self, from: nestedStructDoc) == nestedStruct)
 
-        // a struct storing two nested structs in an array
+        // a struct storing two nested structs in an arrayxz
         let nestedArray = NestedArray(array: [basic1, basic2])
         let nestedArrayDoc: BSONDocument = ["array": [.document(basic1Doc), .document(basic2Doc)]]
         XCTAssert(try encoder.encode(nestedArray) == nestedArrayDoc)
@@ -73,6 +73,13 @@ final class CodecTests: XCTestCase {
         let nestedNestedDoc: BSONDocument = ["s": .document(nestedStructDoc)]
         XCTAssert(try encoder.encode(nestedNested) == nestedNestedDoc)
         XCTAssert(try decoder.decode(NestedNestedStruct.self, from: nestedNestedDoc) == nestedNested)
+        
+        // Foundation array
+        let array = [1, 2, 3, 4]
+        XCTAssertNoThrow(try encoder.encodeFragment(array))
+        
+        let array_of_structs = [basic1, basic2]
+        XCTAssertNoThrow(try encoder.encodeFragment(array_of_structs))
     }
 
     struct OptionalsStruct: Codable, Equatable {
@@ -460,11 +467,26 @@ final class CodecTests: XCTestCase {
     func testEncodeArray() throws {
         let encoder = BSONEncoder()
 
-        let values1 = [BasicStruct(int: 1, string: "hello"), BasicStruct(int: 2, string: "hi")]
+        let values1 = [
+            BasicStruct(int: 1, string: "hello"),
+            BasicStruct(int: 2, string: "hi")
+        ]
         XCTAssert(try encoder.encode(values1) == [["int": 1, "string": "hello"], ["int": 2, "string": "hi"]])
 
         let values2 = [BasicStruct(int: 1, string: "hello"), nil]
         XCTAssert(try encoder.encode(values2) == [["int": 1, "string": "hello"], nil])
+        
+        let a1 = ArrayStruct()
+        let a2 = ArrayStruct()
+        let customTypesArray = [a1, a2]
+        XCTAssertNoThrow(try encoder.encodeFragment(customTypesArray))
+        XCTAssertNoThrow(try encoder.encode(customTypesArray))
+        
+        let gen_a1 = Array<Int>()
+        let gen_a2 = Array<ArrayStruct>()
+
+        XCTAssertNoThrow(try encoder.encode(gen_a1))
+        XCTAssertNoThrow(try encoder.encode(gen_a2))
     }
 
     struct AnyBSONStruct: Codable, Equatable {
@@ -735,6 +757,8 @@ final class CodecTests: XCTestCase {
     func testTopLevelArray() {
         let encoder = BSONEncoder()
         let decoder = BSONDecoder()
+        
+        XCTAssertNoThrow(try encoder.encodeFragment([1, 2, 3]))
         XCTAssert(try encoder.encodeFragment([1, 2, 3]) == [1, 2, 3])
         XCTAssert(try decoder.decode([Int].self, fromBSON: [1, 2, 3]) == [1, 2, 3])
     }
