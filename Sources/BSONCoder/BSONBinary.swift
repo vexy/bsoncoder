@@ -115,7 +115,7 @@ public struct BSONBinary: Equatable, Hashable {
         do {
             let bytes = try base64.base64decoded()
             try self.init(bytes: bytes, subtype: subtype)
-        } catch let error as ExtrasBase64.DecodingError {
+        } catch let error as ExtrasBase64.Base64.DecodingError  {
             throw BSONError.InvalidArgumentError(
                 message: "failed to create Data object from invalid base64 string \(base64): \(error)"
             )

@@ -29,20 +29,20 @@ let package = Package(
 )
 ```
 
-**QUICK URL dependency:**  
-```
-https://github.com/vexy/bsoncoder
-```
-
 ### Swift & OS minimums
 The library has the following OS minimum configuration:
 - Swift `5.1+` 
 - iOS `11.0` 
 - macOS `10.14`
     
-The library is tested in CI configuration running `iOS 11.0 macOS 10.14, Ubuntu 16.04, and Ubuntu 18.04`.
+The library is _tested in CI configuration_ running `iOS 11.0 macOS 10.14, Ubuntu 16.04, and Ubuntu 18.04`.  
+
+**NOTE**:  
+> A build warnings may appear if Swift version is less than v5.5. Check [`SwiftNIO`](https://github.com/apple/swift-nio#repository-organization) package for more information on how to handle this warnings.  
 
 ## Example Usage
+
+### Encoding data
 
 ```Swift
 struct Stuff: Encodable {
@@ -51,8 +51,11 @@ struct Stuff: Encodable {
 }
 
 let bsonDoc = try BSONEncoder().encode(Stuff.self)
+// ...
+// from this point on bsonDoc behaves as typical BSON object
 ```
 
+### Decoding data
 ```Swift
 struct Stuff: Decodable {
     let name: String
@@ -61,8 +64,10 @@ struct Stuff: Decodable {
 }
 
 let myStuff: Stuff = try BSONEncoder().decode(Stuff.self, from: ["someName", 1, [1,2,3])
-print(myStuff.name)     //someName
-print(myStuff.intArr)   //[1,2,3]
+print(myStuff.name)     // someName
+print(myStuff.intArr)   // [1,2,3]
+// ...
+// from this point on myStuff behaves as typical Foundation object
 ```
 
 ## Original Library
